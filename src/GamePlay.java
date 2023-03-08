@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class GamePlay {
     
-    private List<Toy> toys = new ArrayList<>(); 
+    private List<Toy> toys = new ArrayList<>();
     
     public void startPack()
     {
@@ -18,16 +18,34 @@ public class GamePlay {
             if(toys.get(i).getName() == name)
             {
                 toys.get(i).toyAdd(amount);
-                break;
+                return;
             }
         }
+        switch (name)
+        {
+            case "Teddy Bear":
+                toys.add(new TeddyBear(1, "Teddy Bear", amount, 0.3));
+                break;
+            case "Plush Cat":
+                toys.add(new PlushCat(1, "Plush Cat", amount, 0.3));
+                break;
+            case "Rubber Duck":
+                toys.add(new RubberDuck(1, "Rubber Duck", amount, 0.3));
+                break;
+        }
+
     }
 
-    public void receiveToyChange(double receiveToy, String name) throws Exception {
+    public void receiveToyChange(double receiveToy, String name) {
         for (int i = 0; i < toys.size(); i++) {
             if(toys.get(i).getName() == name)
             {
-                toys.get(i).receiveToyChange(receiveToy);
+                try {
+                    toys.get(i).receiveToyChange(receiveToy);
+                } catch (Exception e) {
+                    System.out.println("Enter the number that you want change from 10 to 90: ");
+                    System.out.println();
+                }
                 break;
             }
         }
