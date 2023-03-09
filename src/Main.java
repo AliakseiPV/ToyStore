@@ -10,22 +10,37 @@ public class Main
         game.print();
         System.out.println();
 
-        FileWriter writer = new FileWriter("win.txt", false);
+        File file = new File("win.txt");
+        try (PrintWriter pw = new PrintWriter(file)){
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Scanner in = new Scanner(System.in);
 
         while (game.gameEndCheck() != 0)
         {
             System.out.print("If you want play write - 'play'\n" +
                     "If you want add toys write a number: 1 - Teddy Bear, 2 - Plush Cat, 3 - Rubber Duck\n" +
-                    "If you want to change the toys chance write a number: 4 - Teddy Bear, 5 - Plush Cat, 6 - Rubber Duck");
-            System.out.println();
+                    "If you want to change the toys chance write a number: 4 - Teddy Bear, 5 - Plush Cat, 6 - Rubber Duck\n");
 
             String choise = in.next();
+
+            String winToy;
 
             switch (choise){
                 case "play":
                     System.out.println();
-                    System.out.println("-----Wou win: " + game.play() + "!-----");
+                    winToy = game.play();
+                    try {
+                        FileWriter writer = new FileWriter(file, true);
+                        writer.append(winToy + "\n");
+                        writer.close();
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    System.out.println("-----Wou win: " + winToy + "!-----\n");
                     game.print();
                     break;
                 case "1":
@@ -59,6 +74,7 @@ public class Main
                     game.print();
                     break;
             }
+            System.out.println();
         }
 
 
